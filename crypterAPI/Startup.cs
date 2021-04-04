@@ -23,6 +23,12 @@ namespace CrypterAPI
             // Adds db context to DI container and specifies context uses in-memory database
             services.AddDbContext<UploadItemContext>(opt => opt.UseInMemoryDatabase("CrypterDB"));
             services.AddControllers();
+            //text upload db context
+            services.AddDbContext<TextUploadItemContext>(opt => opt.UseInMemoryDatabase("CrypterMessagesDB"));
+            services.AddControllers();
+            // file upload db context
+            services.AddDbContext<FileUploadItemContext>(opt => opt.UseInMemoryDatabase("CrypterFileDB"));
+            services.AddControllers();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

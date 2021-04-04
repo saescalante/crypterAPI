@@ -2,10 +2,10 @@
 namespace CrypterAPI.Models
 {
     // FileUpload inherits from UploadItem
-    public class FileUpload: UploadItem
+    public class FileUploadItem : UploadItem
     {
-      //add additional members unique to file upload
-
-     
+        //file content is array of bytes
+        //public byte[] FileContent { get; set; }
+        public string FileContent { get; set; }
     }
 }
