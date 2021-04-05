@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.809.4
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CrypterAPI", "crypterAPI\crypterAPI.csproj", "{197DF796-1057-459A-84D2-8E19DE5F8352}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{197DF796-1057-459A-84D2-8E19DE5F8352}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{197DF796-1057-459A-84D2-8E19DE5F8352}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{197DF796-1057-459A-84D2-8E19DE5F8352}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{197DF796-1057-459A-84D2-8E19DE5F8352}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B1670563-6207-48FE-AC58-E34F136D96DE}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,43 @@
+﻿<Properties StartupConfiguration="{197DF796-1057-459A-84D2-8E19DE5F8352}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="crypterAPI/appsettings.Development.json">
+    <Files>
+      <File FileName="crypterAPI/Models/UploadItemContext.cs" Line="1" Column="1" />
+      <File FileName="crypterAPI/Program.cs" />
+      <File FileName="crypterAPI/Controllers/UploadItemsController.cs" />
+      <File FileName="crypterAPI/Controllers/FileUploadItemsController.cs" />
+      <File FileName="crypterAPI/Models/UploadItem.cs" />
+      <File FileName="crypterAPI/Startup.cs" />
+      <File FileName="crypterAPI/Models/FileUploadItemContext.cs" />
+      <File FileName="crypterAPI/appsettings.json" />
+      <File FileName="crypterAPI/Models/TextUploadItem.cs" />
+      <File FileName="crypterAPI/Models/FileUploadItem.cs" />
+      <File FileName="crypterAPI/appsettings.Development.json" Line="8" Column="4" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="CrypterAPI" expanded="True">
+            <Node name="crypterAPI" expanded="True">
+              <Node name="Dependencies" expanded="True">
+                <Node name="PackageDependencies" expanded="True" />
+              </Node>
+              <Node name="Controllers" expanded="True" />
+              <Node name="Models" expanded="True" />
+              <Node name="Properties" expanded="True" />
+              <Node name="appsettings.json" expanded="True">
+                <Node name="appsettings.Development.json" selected="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.ItemProperties.crypterAPI PreferredExecutionTarget="/Applications/Google Chrome.app" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>
