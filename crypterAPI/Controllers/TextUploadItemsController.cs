@@ -1,108 +1,105 @@
-//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Threading.Tasks;
-//using Microsoft.AspNetCore.Http;
-//using Microsoft.AspNetCore.Mvc;
-//using Microsoft.EntityFrameworkCore;
-//using CrypterAPI.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using CrypterAPI.Models;
 
-//namespace CrypterAPI.Controllers
-//{
-//    [Route("api/[controller]")]
-//    [ApiController]
-//    public class TextUploadItemsController : ControllerBase
-//    {
-//        private readonly TextUploadItemContext _context;
+namespace CrypterAPI.Controllers
+{
+    [Route("api/[controller]")]
+    //[ApiController]
+    public class TextUploadItemsController : ControllerBase
+    {
+        public CrypterDB Db { get; }
 
-//        public TextUploadItemsController(TextUploadItemContext context)
-//        {
-//            _context = context;
-//        }
+        public TextUploadItemsController(CrypterDB db)
+        {
+            Db = db;
+        }
 
-//        // GET: api/TextUploadItems
-//        [HttpGet]
-//        public async Task<ActionResult<IEnumerable<TextUploadItem>>> GetTextUploadItems()
-//        {
-//            return await _context.TextUploadItems.ToListAsync();
-//        }
+        // POST: api/TextUploadItems
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPost]
+        public async Task<IActionResult> PostTextUploadItem([FromBody] TextUploadItem body)
+        {
+            await Db.Connection.OpenAsync();
+            body.Db = Db;
+            await body.InsertAsync();
+            return new OkObjectResult(body);
+        }
 
-//        // GET: api/TextUploadItems/5
-//        [HttpGet("{id}")]
-//        public async Task<ActionResult<TextUploadItem>> GetTextUploadItem(long id)
-//        {
-//            var textUploadItem = await _context.TextUploadItems.FindAsync(id);
+        // GET: api/TextUploadItems
+        [HttpGet]
+        public async Task<IActionResult> GetTextUploadItems()
+        {
+            await Db.Connection.OpenAsync();
+            var query = new TextUploadItemQuery(Db);
+            var result = await query.LatestItemsAsync();
+            return new OkObjectResult(result);
+        }
 
-//            if (textUploadItem == null)
-//            {
-//                return NotFound();
-//            }
+        // GET: api/TextUploadItems/5
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetTextUploadItem(int id)
+        {
+            await Db.Connection.OpenAsync();
+            var query = new TextUploadItemQuery(Db);
+            var result = await query.FindOneAsync(id);
+            if (result is null)
+                return new NotFoundResult();
+            return new OkObjectResult(result);
+        }
 
-//            return textUploadItem;
-//        }
+        // PUT: api/TextUploadItems/5
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutTextUploadItem(int id, [FromBody] TextUploadItem body)
+        {
+            await Db.Connection.OpenAsync();
+            var query = new TextUploadItemQuery(Db);
+            var result = await query.FindOneAsync(id);
+            if (result is null)
+                return new NotFoundResult();
+            //update fields
+            result.UntrustedName = body.UntrustedName;
+            result.UserID = body.UserID;
+            result.Size = body.Size;
+            result.CharCount = body.CharCount;
+            result.Message = body.Message; 
+            await result.UpdateAsync();
+            return new OkObjectResult(result);
 
-//        // PUT: api/TextUploadItems/5
-//        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-//        [HttpPut("{id}")]
-//        public async Task<IActionResult> PutTextUploadItem(long id, TextUploadItem textUploadItem)
-//        {
-//            if (id != textUploadItem.Id)
-//            {
-//                return BadRequest();
-//            }
+        }
 
-//            _context.Entry(textUploadItem).State = EntityState.Modified;
 
-//            try
-//            {
-//                await _context.SaveChangesAsync();
-//            }
-//            catch (DbUpdateConcurrencyException)
-//            {
-//                if (!TextUploadItemExists(id))
-//                {
-//                    return NotFound();
-//                }
-//                else
-//                {
-//                    throw;
-//                }
-//            }
 
-//            return NoContent();
-//        }
+        // DELETE: api/TextUploadItems/5
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteTextUploadItem(int id)
+        {
+            await Db.Connection.OpenAsync();
+            var query = new TextUploadItemQuery(Db);
+            var result = await query.FindOneAsync(id);
+            if (result is null)
+                return new NotFoundResult();
+            await result.DeleteAsync();
+            return new OkResult();
+        }
 
-//        // POST: api/TextUploadItems
-//        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-//        [HttpPost]
-//        public async Task<ActionResult<TextUploadItem>> PostTextUploadItem(TextUploadItem textUploadItem)
-//        {
-//            _context.TextUploadItems.Add(textUploadItem);
-//            await _context.SaveChangesAsync();
 
-//            //return CreatedAtAction("GetTextUploadItem", new { id = textUploadItem.Id }, textUploadItem);
-//            return CreatedAtAction(nameof(GetTextUploadItem), new { id = textUploadItem.Id }, textUploadItem);
-//        }
+        // DELETE api/TextUploadItems
+        [HttpDelete]
+        public async Task<IActionResult> DeleteAll()
+        {
+            await Db.Connection.OpenAsync();
+            var query = new TextUploadItemQuery(Db);
+            await query.DeleteAllAsync();
+            return new OkResult();
+        }
 
-//        // DELETE: api/TextUploadItems/5
-//        [HttpDelete("{id}")]
-//        public async Task<IActionResult> DeleteTextUploadItem(long id)
-//        {
-//            var textUploadItem = await _context.TextUploadItems.FindAsync(id);
-//            if (textUploadItem == null)
-//            {
-//                return NotFound();
-//            }
 
-//            _context.TextUploadItems.Remove(textUploadItem);
-//            await _context.SaveChangesAsync();
-
-//            return NoContent();
-//        }
-
-//        private bool TextUploadItemExists(long id)
-//        {
-//            return _context.TextUploadItems.Any(e => e.Id == id);
-//        }
-//    }
-//}
+    }
+}
