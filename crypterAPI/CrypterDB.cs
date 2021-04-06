@@ -1,7 +1,7 @@
 ﻿using System;
 using MySqlConnector;
 
-namespace CrypterAPI.Models
+namespace CrypterAPI
 {
     public class CrypterDB: IDisposable
     {
@@ -11,7 +11,7 @@ namespace CrypterAPI.Models
             Connection = new MySqlConnection(connectionString); 
         }
 
-        public void Dispose() => Connection.Close(); 
+        public void Dispose() => Connection.Dispose(); 
 
     }
 }

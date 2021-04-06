@@ -35,78 +35,74 @@ namespace CrypterAPI.Controllers
             return new OkObjectResult(body);
         }
 
-        //// GET: api/UploadItems
-        //[HttpGet]
-        //public async Task<IActionResult> GetUploadItems()
-        //{
-        //    await Db.Connection.OpenAsync();
-        //    var query = new BlogPostQuery(Db);
-        //    var result = await query.LatestPostsAsync();
-        //    return new OkObjectResult(result);
-        //}
+        // GET: api/UploadItems
+        [HttpGet]
+        public async Task<IActionResult> GetUploadItems()
+        {
+            await Db.Connection.OpenAsync();
+            var query = new UploadItemQuery(Db);
+            var result = await query.LatestItemsAsync();
+            return new OkObjectResult(result);
+        }
 
-        //// GET: api/UploadItems/5
-        //[HttpGet("{id}")]
-        //public async Task<ActionResult<UploadItem>> GetUploadItem(long id)
-        //{
-        //    var uploadItem = await _context.UploadItems.FindAsync(id);
+        // GET: api/UploadItems/5
+        [HttpGet("{id}")]
+        public async Task<IActionResult>GetUploadItem(int id)
+        {
+            await Db.Connection.OpenAsync();
+            var query = new UploadItemQuery(Db);
+            var result = await query.FindOneAsync(id);
+            if (result is null)
+                return new NotFoundResult();
+            return new OkObjectResult(result);
+        }
 
-        //    if (uploadItem == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return uploadItem;
-        //}
-
-        //// PUT: api/UploadItems/5
-        //// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        //[HttpPut("{id}")]
-        //public async Task<IActionResult> PutUploadItem(long id, UploadItem uploadItem)
-        //{
-        //    if (id != uploadItem.Id)
-        //    {
-        //        return BadRequest();
-        //    }
-
-        //    _context.Entry(uploadItem).State = EntityState.Modified;
-
-        //    try
-        //    {
-        //        await _context.SaveChangesAsync();
-        //    }
-        //    catch (DbUpdateConcurrencyException)
-        //    {
-        //        if (!UploadItemExists(id))
-        //        {
-        //            return NotFound();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
-
-        //    return NoContent();
-        //}
+        // PUT: api/UploadItems/5
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutUploadItem(int id, [FromBody]UploadItem body)
+        {
+            await Db.Connection.OpenAsync();
+            var query = new UploadItemQuery(Db);
+            var result = await query.FindOneAsync(id);
+            if (result is null)
+                return new NotFoundResult();
+            //update fields
+            result.UntrustedName = body.UntrustedName;
+            result.UserID = body.UserID;
+            result.Size = body.Size;
+            
+            await result.UpdateAsync();
+            return new OkObjectResult(result);
+           
+        }
 
 
 
-        //// DELETE: api/UploadItems/5
-        //[HttpDelete("{id}")]
-        //public async Task<IActionResult> DeleteUploadItem(long id)
-        //{
-        //    var uploadItem = await _context.UploadItems.FindAsync(id);
-        //    if (uploadItem == null)
-        //    {
-        //        return NotFound();
-        //    }
+        // DELETE: api/UploadItems/5
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteUploadItem(int id)
+        {
+            await Db.Connection.OpenAsync();
+            var query = new UploadItemQuery(Db);
+            var result = await query.FindOneAsync(id);
+            if (result is null)
+                return new NotFoundResult();
+            await result.DeleteAsync();
+            return new OkResult(); 
+        }
 
-        //    _context.UploadItems.Remove(uploadItem);
-        //    await _context.SaveChangesAsync();
 
-        //    return NoContent();
-        //}
+        // DELETE api/blog
+        [HttpDelete]
+        public async Task<IActionResult> DeleteAll()
+        {
+            await Db.Connection.OpenAsync();
+            var query = new UploadItemQuery(Db);
+            await query.DeleteAllAsync();
+            return new OkResult();
+        }
+
 
     }
 }

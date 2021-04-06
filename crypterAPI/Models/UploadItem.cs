@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Data;
 using System.Threading.Tasks; 
-using MySqlConnector; 
+using MySqlConnector;
+
 namespace CrypterAPI.Models
 {
     public class UploadItem
@@ -13,7 +14,7 @@ namespace CrypterAPI.Models
         // user id/ tag, null if anonymous
         public string UserID { get; set; }
         // file size in Mb
-        public long Size { get; set; }
+        public float Size { get; set; }
         // file time stamp
         public DateTime TimeStamp { get; set;}
 
@@ -22,7 +23,7 @@ namespace CrypterAPI.Models
         //constructor sets TimeStamp upon instantiation
         public UploadItem()
         {
-            this.TimeStamp = DateTime.UtcNow; 
+            TimeStamp = DateTime.UtcNow; 
         }
         internal UploadItem(CrypterDB db)
         {
