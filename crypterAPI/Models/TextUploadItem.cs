@@ -85,7 +85,7 @@ namespace CrypterAPI.Models
             {
                 ParameterName = "@charcount",
                 DbType = DbType.Int16,
-                Value = TimeStamp,
+                Value = CharCount,
             });
             cmd.Parameters.Add(new MySqlParameter
             {
