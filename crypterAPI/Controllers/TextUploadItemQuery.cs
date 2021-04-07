@@ -7,7 +7,6 @@ using CrypterAPI.Models;
 
 
 namespace CrypterAPI.Controllers
-
 {
 
     public class TextUploadItemQuery
