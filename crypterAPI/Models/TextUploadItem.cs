@@ -91,7 +91,7 @@ namespace CrypterAPI.Models
             {
                 ParameterName = "@message",
                 DbType = DbType.String,
-                Value = TimeStamp,
+                Value = Message,
             });
         }
     }

@@ -5,23 +5,20 @@ using System.Threading.Tasks;
 using MySqlConnector;
 using CrypterAPI.Models;
 
-
 namespace CrypterAPI.Controllers
-
 {
-
-    public class TextUploadItemQuery
+    public class FileUploadItemQuery
     {
         public CrypterDB Db { get; }
-        public TextUploadItemQuery(CrypterDB db)
+        public FileUploadItemQuery(CrypterDB db)
         {
             Db = db;
         }
 
-        public async Task<TextUploadItem> FindOneAsync(int id)
+        public async Task<FileUploadItem> FindOneAsync(int id)
         {
             using var cmd = Db.Connection.CreateCommand();
-            cmd.CommandText = @"SELECT `Id`, `UntrustedName`, `UserID`, `Size`, `TimeStamp`, `CharCount`, `Message` FROM `TextUploadItems` WHERE `Id` = @id";
+            cmd.CommandText = @"SELECT `Id`, `UntrustedName`, `UserID`, `Size`, `TimeStamp`,`FileContent` FROM `FileUploadItems` WHERE `Id` = @id";
             cmd.Parameters.Add(new MySqlParameter
             {
                 ParameterName = "@id",
@@ -32,10 +29,10 @@ namespace CrypterAPI.Controllers
             return result.Count > 0 ? result[0] : null;
         }
 
-        public async Task<List<TextUploadItem>> LatestItemsAsync()
+        public async Task<List<FileUploadItem>> LatestItemsAsync()
         {
             using var cmd = Db.Connection.CreateCommand();
-            cmd.CommandText = @"SELECT `Id`, `UntrustedName`, `UserID`, `Size`, `TimeStamp`, `CharCount`, `Message` FROM `TextUploadItems` ORDER BY `Id` DESC LIMIT 10;";
+            cmd.CommandText = @"SELECT `Id`, `UntrustedName`, `UserID`, `Size`, `TimeStamp`, `FileContent` FROM `FileUploadItems` ORDER BY `Id` DESC LIMIT 10;";
             return await ReadAllAsync(await cmd.ExecuteReaderAsync());
         }
 
@@ -43,29 +40,28 @@ namespace CrypterAPI.Controllers
         {
             using var txn = await Db.Connection.BeginTransactionAsync();
             using var cmd = Db.Connection.CreateCommand();
-            cmd.CommandText = @"DELETE FROM `TextUploadItems`";
+            cmd.CommandText = @"DELETE FROM `FileUploadItems`";
             //added per https://fl.vu/mysql-trans
             cmd.Transaction = txn;
             await cmd.ExecuteNonQueryAsync();
             await txn.CommitAsync();
         }
 
-        private async Task<List<TextUploadItem>> ReadAllAsync(DbDataReader reader)
+        private async Task<List<FileUploadItem>> ReadAllAsync(DbDataReader reader)
         {
-            var items = new List<TextUploadItem>();
+            var items = new List<FileUploadItem>();
             using (reader)
             {
                 while (await reader.ReadAsync())
                 {
-                    var item = new TextUploadItem(Db)
+                    var item = new FileUploadItem(Db)
                     {
                         Id = reader.GetInt32(0),
                         UntrustedName = reader.GetString(1),
                         UserID = reader.GetString(2),
                         Size = reader.GetFloat(3),
-                        TimeStamp = reader.GetDateTime(4), 
-                        CharCount = reader.GetString(5),
-                        Message = reader.GetString(6)
+                        TimeStamp = reader.GetDateTime(4),
+                        FileContent = reader.GetString(5)
                     };
                     items.Add(item);
                 }
@@ -74,3 +70,4 @@ namespace CrypterAPI.Controllers
         }
     }
 }
+

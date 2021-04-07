@@ -89,7 +89,7 @@ namespace CrypterAPI.Controllers
             return new OkResult();
         }
 
-
+        // Requires safe updates to be disabled within MySQl editor preferences
         // DELETE api/TextUploadItems
         [HttpDelete]
         public async Task<IActionResult> DeleteAll()
